@@ -40,6 +40,21 @@ const AccountScreen = () => {
 
   return (
     <Screen>
+      <View
+        style={{
+          backgroundColor: '#f8f8f8',
+        }}>
+        <View
+          style={{
+            alignSelf: 'flex-start',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+          }}>
+          <Text style={styles.headerText}>Account</Text>
+          <Entypo name="user" size={35} color="#6a6a6a" />
+        </View>
+      </View>
       <FlatList
         data={user}
         keyExtractor={item => String(item.id)}
@@ -90,6 +105,13 @@ const AccountScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  headerText: {
+    fontSize: 32,
+    padding: 10,
+    fontWeight: 'bold',
+    textAlign: 'left',
+    alignSelf: 'flex-start',
+  },
   userImg: {
     width: 50,
     height: 50,
