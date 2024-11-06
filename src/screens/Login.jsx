@@ -57,9 +57,6 @@ const Login = () => {
           values,
         }) => (
           <>
-            {console.log('isValid: ', isValid)}
-            {console.log('isSubmitting: ', isSubmitting)}
-            {console.log('dirty: ', dirty)}
             <View style={{padding: 10, height: '100%'}}>
               <View style={{marginBottom: 10}}>
                 <AppTextInput

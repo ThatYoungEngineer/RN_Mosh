@@ -8,10 +8,10 @@ import {
 } from 'react-native';
 
 import Screen from '../components/Screen';
+import Header from '../components/Header';
+import ItemsSeparator from '../components/ItemsSeparator';
 import userImage from '../assets/user.jpg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
-import ItemsSeparator from '../components/ItemsSeparator';
 
 const AccountScreen = () => {
   const user = [
@@ -40,21 +40,7 @@ const AccountScreen = () => {
 
   return (
     <Screen>
-      <View
-        style={{
-          backgroundColor: '#f8f8f8',
-        }}>
-        <View
-          style={{
-            alignSelf: 'flex-start',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-          }}>
-          <Text style={styles.headerText}>Account</Text>
-          <Entypo name="user" size={35} color="#6a6a6a" />
-        </View>
-      </View>
+      <Header />
       <FlatList
         data={user}
         keyExtractor={item => String(item.id)}

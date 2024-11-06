@@ -1,6 +1,7 @@
-import AccountScreen from './AccountScreen';
-import Listings from './Listings';
-import Login from './Login';
-import Messages from './Messages';
+import {lazy} from 'react';
 
-export {AccountScreen, Listings, Login, Messages};
+export const AccountScreen = lazy(() => import('./AccountScreen'));
+export const Listings = lazy(() => import('./Listings'));
+export const Login = lazy(() => import('./Login'));
+export const Messages = lazy(() => import('./Messages'));
+export const CreateListing = lazy(() => import('./CreateListing'));

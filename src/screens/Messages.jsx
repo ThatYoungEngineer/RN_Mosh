@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import {
   View,
   Text,
@@ -5,14 +6,12 @@ import {
   FlatList,
   Image,
   TouchableNativeFeedback,
-  TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {useState} from 'react';
 import Screen from '../components/Screen';
-import Icon from 'react-native-vector-icons/EvilIcons';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import Icon from 'react-native-vector-icons/EvilIcons';
 
 const Messages = () => {
   const MESSAGES = [

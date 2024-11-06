@@ -1,18 +1,20 @@
+import { Suspense } from "react"
 import { View, Text } from "react-native"
 import Screen from "./components/Screen"
+import {AccountScreen, Listings, Messages, Login, CreateListing} from './screens'
 
-import {AccountScreen, Listings, Messages, Login} from './screens/index.js'
 const App = () => {
 
   return (
-    <Screen>
-      <View>
+    <Suspense fallback={<Text>Loading..</Text>}>
+      <Screen>
         {/* <AccountScreen /> */}
         {/* <Listings /> */}
+        {/* <Login /> */}
         {/* <Messages /> */}
-        <Login />
-      </View>
-    </Screen>
+        <CreateListing />
+      </Screen>
+    </Suspense>
   )
 }
 
