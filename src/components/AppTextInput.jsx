@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TextInput, StyleSheet, Platform} from 'react-native';
+import {View, TextInput, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const AppTextInput = ({
@@ -13,16 +13,31 @@ const AppTextInput = ({
   return (
     <View style={styles.container}>
       {icon && <Icon name={icon} size={20} />}
-      <TextInput
-        clearButtonMode="always"
-        secureTextEntry={password}
-        placeholder={placeholder}
-        placeholderTextColor="#0000005f"
-        style={styles.input}
-        multiline={multiline}
-        maxLength={maxLength}
-        {...others}
-      />
+      {multiline ? (
+        <TextInput
+          clearButtonMode="always"
+          secureTextEntry={password}
+          placeholder={placeholder}
+          placeholderTextColor="#0000005f"
+          style={[styles.input, {maxHeight: 150}]}
+          multiline={true}
+          maxLength={maxLength}
+          {...others}
+          textAlignVertical="top"
+        />
+      ) : (
+        <TextInput
+          clearButtonMode="always"
+          secureTextEntry={password}
+          placeholder={placeholder}
+          placeholderTextColor="#0000005f"
+          style={[{height: 60}, styles.input]}
+          multiline={false}
+          maxLength={maxLength}
+          {...others}
+          textAlignVertical="center"
+        />
+      )}
     </View>
   );
 };
@@ -40,13 +55,11 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '98%',
-    height: 60,
-    maxHeight: 150,
-    paddingHorizontal: 16,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
     fontSize: 17,
     color: '#000',
     fontWeight: 'semibold',
-    textAlignVertical: 'center',
   },
 });
 

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -13,7 +14,8 @@ import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import {useEffect, useState} from 'react';
 
 import {launchImageLibrary} from 'react-native-image-picker';
-export default function AppImagePicker() {
+
+export default function AppImagePicker({onChangeText}) {
   const [selectedImages, setSelectedImages] = useState(null);
 
   const requestCameraRollPermission = async () => {
@@ -29,40 +31,41 @@ export default function AppImagePicker() {
   }, []);
 
   const openImageLibrary = async () => {
-    const selectedImages = await launchImageLibrary({
+    const RESULT = await launchImageLibrary({
       mediaType: 'photo',
       selectionLimit: 0,
     });
-    setSelectedImages(selectedImages?.assets);
+    if (RESULT?.assets && selectedImages != null) {
+      setSelectedImages(prevImages => [...prevImages, ...RESULT.assets]);
+      onChangeText(prevImages => [...prevImages, ...RESULT.assets]);
+    } else if (RESULT?.assets) {
+      setSelectedImages(RESULT.assets);
+      onChangeText(RESULT.assets);
+    }
   };
 
   const handleImageDelete = item => () => {
-    setSelectedImages(selectedImages.filter(img => img.uri != item.uri));
+    console.log('hello');
   };
 
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        flexGrow: 0,
-      }}>
+    <View style={{flexDirection: 'row'}}>
       {selectedImages?.length > 0 && (
         <FlatList
           data={selectedImages}
-          keyExtractor={item => String(item.fileName)}
+          keyExtractor={item => String(item)}
           horizontal
           renderItem={({item}) => (
-            <TouchableWithoutFeedback onPressOut={handleImageDelete(item)}>
+            <TouchableWithoutFeedback onPress={() => handleImageDelete(item)}>
               <Image source={{uri: item.uri}} style={styles.selectedImage} />
             </TouchableWithoutFeedback>
           )}
+          style={{flexGrow: 0}}
         />
       )}
       <TouchableOpacity
         style={styles.cameraContainer}
-        onPressOut={openImageLibrary}>
+        onPress={openImageLibrary}>
         <Icon name="camera" size={30} color="#3a3a3a" />
       </TouchableOpacity>
     </View>

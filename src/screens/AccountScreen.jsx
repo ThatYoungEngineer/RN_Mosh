@@ -12,6 +12,7 @@ import Header from '../components/Header';
 import ItemsSeparator from '../components/ItemsSeparator';
 import userImage from '../assets/user.jpg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const AccountScreen = () => {
   const user = [
@@ -40,7 +41,7 @@ const AccountScreen = () => {
 
   return (
     <Screen>
-      <Header />
+      <Header title="Account" icon="account" />
       <FlatList
         data={user}
         keyExtractor={item => String(item.id)}

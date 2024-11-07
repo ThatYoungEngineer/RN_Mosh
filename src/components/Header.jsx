@@ -6,7 +6,7 @@ export default function Header({title, icon}) {
   return (
     <View
       style={{
-        backgroundColor: '#f8f8f8',
+        backgroundColor: 'transparent',
       }}>
       <View
         style={{
