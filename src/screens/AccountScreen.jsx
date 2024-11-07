@@ -5,6 +5,7 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  StatusBar
 } from 'react-native';
 
 import Screen from '../components/Screen';
@@ -13,27 +14,21 @@ import ItemsSeparator from '../components/ItemsSeparator';
 import userImage from '../assets/user.jpg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { useNavigation } from '@react-navigation/native';
 
 const AccountScreen = () => {
-  const user = [
-    {
-      id: 1,
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      img: userImage,
-    },
-  ];
+ const navigation = useNavigation()
 
   const menu = [
     {
       id: 1,
-      title: 'My Listings',
+      title: 'Listings',
       logo: 'format-list-bulleted',
       logoBg: '#ff4135',
     },
     {
       id: 2,
-      title: 'My Messages',
+      title: 'Messages',
       logo: 'message',
       logoBg: '#44bd5a',
     },
@@ -41,39 +36,39 @@ const AccountScreen = () => {
 
   return (
     <Screen>
+      {/* <StatusBar backgroundColor="#6a51ae" barStyle="dark-content" translucent={false} /> */}
       <Header title="Account" icon="account" />
-      <FlatList
-        data={user}
-        keyExtractor={item => String(item.id)}
-        renderItem={({item}) => (
-          <View style={styles.itemsContainer}>
-            <Image source={item.img} style={styles.userImg} />
+      <View style={styles.itemsContainer}>
+            <Image source={userImage} style={styles.userImg} />
             <View style={styles.textContainer}>
-              <Text style={styles.userName}>{item.name}</Text>
-              <Text style={styles.userEmail}>{item.email}</Text>
+              <Text style={styles.userName}>John Doe</Text>
+              <Text style={styles.userEmail}>johndoe@gmail.com</Text>
             </View>
           </View>
-        )}
-      />
-      <FlatList
-        style={{marginTop: 15}}
-        data={menu}
-        keyExtractor={item => String(item.id)}
-        renderItem={({item}) => (
-          <View style={styles.itemsContainer}>
-            <View style={[styles.logo, {backgroundColor: item.logoBg}]}>
-              <Icon
-                name={item.logo}
-                size={20}
-                color="white"
-                style={{height: 20, width: 20}}
-              />
-            </View>
-            <Text style={{fontWeight: 500}}>{item.title}</Text>
-          </View>
-        )}
-        ItemSeparatorComponent={ItemsSeparator}
-      />
+          <FlatList
+            style={{marginTop: 15}}
+            data={menu}
+            keyExtractor={item => String(item.id)}
+            renderItem={({item}) => (
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => navigation.navigate(item.title)}
+              >
+              <View style={styles.itemsContainer}>
+                <View style={[styles.logo, {backgroundColor: item.logoBg}]}>
+                  <Icon
+                    name={item.logo}
+                    size={20}
+                    color="white"
+                    style={{height: 20, width: 20}}
+                  />
+                </View>
+                <Text style={{fontWeight: 500}}>{item.title}</Text>
+              </View>
+              </TouchableOpacity>
+            )}
+            ItemSeparatorComponent={ItemsSeparator}
+          />
       <TouchableOpacity style={styles.logoutBtn}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={[styles.logo, {backgroundColor: '#d8cd2a'}]}>
@@ -105,7 +100,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   itemsContainer: {
-    flex: 1,
     paddingVertical: 5,
     paddingHorizontal: 10,
     flexDirection: 'row',
@@ -117,11 +111,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   userName: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '500',
   },
   userEmail: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '300',
   },
   logo: {

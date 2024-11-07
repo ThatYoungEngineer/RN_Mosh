@@ -18,7 +18,8 @@ export default function Header({title, icon}) {
         <Text
           style={{
             fontSize: 32,
-            padding: 10,
+            paddingHorizontal: 10,
+            paddingVertical: 20,
             fontWeight: 'bold',
             textAlign: 'left',
             alignSelf: 'flex-start',

@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
+  StatusBar,
 } from 'react-native';
 
 import React from 'react';
@@ -21,8 +22,8 @@ import * as yup from 'yup';
 const VALIDATION_SCHEMA = yup.object().shape({
   images: yup
     .array()
-    .min(1, 'Minimum 1 image is required') // Use a number (1) for the minimum length
-    .required('Images are required'),
+    .required('Image is required')
+    .min(1, 'Minimum 1 image is required'),
   title: yup.string().required('Title is required'),
   price: yup
     .number()
@@ -32,26 +33,26 @@ const VALIDATION_SCHEMA = yup.object().shape({
   description: yup.string().required('Description is required'),
 });
 
-export default function CreateListing() {
+const CreateListing = () => {
+
   const INPUT_FIELDS = [
     {id: 1, name: 'title', placeholder: 'Title'},
-    {
-      id: 2,
-      name: 'price',
-      placeholder: 'Price',
-      keyboardType: 'numeric',
-      maxLength: 6,
-    },
+    {id: 2, name: 'price', placeholder: 'Price', keyboardType: 'numeric', maxLength: 6},
     {id: 3, name: 'category', placeholder: 'Category'},
     {id: 4, name: 'description', placeholder: 'Description', multiline: true},
   ];
   return (
     <Screen>
+      <StatusBar
+          animated={true}
+          backgroundColor="#61dafb"
+          barStyle='dark-content'
+        />
       <ScrollView contentContainerStyle={styles.container}>
         <Header title="Create Listing" icon="view-list" />
         <Formik
           initialValues={{
-            images: null,
+            images: [],
             title: '',
             price: '',
             category: '',
@@ -94,7 +95,7 @@ export default function CreateListing() {
                       multiline={item.multiline}
                       value={values[item.name]}
                       onBlur={handleBlur(item.name)}
-                      onChangeText={handleChange(item.name)} // bind Formik handleChange
+                      onChangeText={handleChange(item.name)}
                     />
 
                     {errors[item.name] && touched[item.name] && (
@@ -107,6 +108,7 @@ export default function CreateListing() {
                 scrollEnabled={false}
               />
               <TouchableOpacity
+                disabled={isSubmitting || !isValid || !dirty}
                 style={[
                   styles.postBtn,
                   (isSubmitting || !isValid || !dirty) &&
@@ -125,13 +127,13 @@ export default function CreateListing() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    paddingHorizontal: 10,
   },
   postBtn: {
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#909000',
+    backgroundColor: '#4B8F8C',
     padding: 15,
     borderRadius: 10,
     marginTop: 20,
@@ -147,3 +149,5 @@ const styles = StyleSheet.create({
     opacity: 0.4,
   },
 });
+
+export default CreateListing
