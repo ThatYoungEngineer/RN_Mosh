@@ -5,7 +5,6 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  StatusBar,
   Button
 } from 'react-native';
 
@@ -38,7 +37,6 @@ const AccountScreen = () => {
   return (
     <Screen>
           <FlatList
-            style={{marginTop: 15}}
             data={menu}
             keyExtractor={item => String(item.id)}
             ListHeaderComponent={ () => (
@@ -89,7 +87,8 @@ const AccountScreen = () => {
             ItemSeparatorComponent={ItemsSeparator}
           />
 
-          <Button title="Login" onPress={() => navigation.navigate("Register")} />
+          <Button title="Login" onPress={() => navigation.navigate("Auth", { screen: "Login" })} />
+          <Button title="Register" onPress={() => navigation.navigate("Auth", { screen: "Register" })} />
 
     </Screen>
   );
