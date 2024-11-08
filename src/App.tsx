@@ -1,20 +1,29 @@
 import { Suspense } from "react"
-import { View, Text, Dimensions } from "react-native"
+import { StyleSheet, Text } from "react-native"
 
-import {AccountScreen, Listings, Messages, Login, CreateListing} from './screens'
+import {AccountScreen, Listings, Messages, CreateListing} from './screens'
+import Register from './screens/auth/Register'
+import Login from './screens/auth/Login'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMI from 'react-native-vector-icons/MaterialIcons';
-import { BlurView } from "@react-native-community/blur";
+
 
 const App = () => {
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
 
-  const {width} = Dimensions.get('window')
+  function AuthStack() {
+	return (
+	  <Stack.Navigator screenOptions={{ headerShown: false }}>
+		<Stack.Screen name="Register" component={Register} />
+		<Stack.Screen name="Login" component={Login} />
+	  </Stack.Navigator>
+	);
+  }
 
   return (
     <Suspense fallback={<Text>Loading..</Text>}>
@@ -39,20 +48,13 @@ const App = () => {
       	</Stack.Navigator> */}
 
 		<Tab.Navigator
+		initialRouteName="Messages"
 			screenOptions={{
-				tabBarStyle: { position: 'absolute', height: 60, maxHeight: 60},
-				tabBarBackground: () => (
-					<BlurView
-					style={{position: 'absolute', right: 0, bottom: 0, top: 0, left: 0}}
-					blurType="dark"
-					blurAmount={100}
-					reducedTransparencyFallbackColor="white"
-					/>
-				),
+        headerShown: false,
+				tabBarStyle: { position: 'absolute', height: 60, width: '100%'},
 				tabBarActiveTintColor: 'tomato',
 				tabBarInactiveTintColor: '#eee',
-				
-			}}
+      }}
 		>
 			<Tab.Screen name="Messages" component={Messages} 
 				options={{
@@ -82,6 +84,14 @@ const App = () => {
 					)
 				}}
 			/>
+			<Tab.Screen
+				name="Auth"
+				component={AuthStack} // Use stack navigator for Register/Login
+				options={{
+					headerShown: false,
+				}}
+			/>
+			
 		</Tab.Navigator>
     </Suspense>
   )

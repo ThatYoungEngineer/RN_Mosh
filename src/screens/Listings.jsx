@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Screen from '../components/Screen';
 import Icon from 'react-native-vector-icons/FontAwesome6';
+import Header from '../components/Header';
 
 const Listings = ({route}) => {
   const LISTINGS = [
@@ -37,30 +38,12 @@ const Listings = ({route}) => {
     },
   ];
 
-  const renderHeader = () => (
-    <View
-      style={{
-        backgroundColor: '#f8f8f8',
-      }}>
-      <View
-        style={{
-          alignSelf: 'flex-start',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-        }}>
-        <Text style={styles.headerText}>Products {route?.params?.id}</Text>
-        <Icon name="boxes-packing" size={35} color="#6a6a6a" />
-      </View>
-    </View>
-  );
-
   return (
     <Screen>
       <FlatList
         data={LISTINGS}
         keyExtractor={item => String(item.id)}
-        ListHeaderComponent={renderHeader}
+        ListHeaderComponent={<Header title="Products" icon="store" />}
         renderItem={({item}) => (
           <TouchableOpacity style={{padding: 15}}>
             <View style={styles.listingsContainer}>

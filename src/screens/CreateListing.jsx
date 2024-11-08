@@ -43,83 +43,83 @@ const CreateListing = () => {
   ];
   return (
     <Screen>
-      <StatusBar
-          animated={true}
-          backgroundColor="#61dafb"
-          barStyle='dark-content'
-        />
       <ScrollView contentContainerStyle={styles.container}>
         <Header title="Create Listing" icon="view-list" />
-        <Formik
-          initialValues={{
-            images: [],
-            title: '',
-            price: '',
-            category: '',
-            description: '',
-          }}
-          onSubmit={data => {
-            console.log('Submitting: ', data);
-          }}
-          validationSchema={VALIDATION_SCHEMA}>
-          {({
-            handleSubmit,
-            handleChange,
-            handleBlur,
-            setFieldValue,
-            errors,
-            touched,
-            isValid,
-            isSubmitting,
-            dirty,
-            values,
-          }) => (
-            <>
-              <View style={{marginBottom: 10}}>
-                <AppImagePicker
-                  onChangeText={images => setFieldValue('images', images)}
-                />
-                {errors.images && touched.images && (
-                  <ErrorText message={errors.images} />
-                )}
-              </View>
-              <FlatList
-                data={INPUT_FIELDS}
-                keyExtractor={item => String(item.id)}
-                renderItem={({item}) => (
-                  <>
-                    <AppTextInput
-                      placeholder={item.placeholder}
-                      keyboardType={item.keyboardType}
-                      maxLength={item.maxLength}
-                      multiline={item.multiline}
-                      value={values[item.name]}
-                      onBlur={handleBlur(item.name)}
-                      onChangeText={handleChange(item.name)}
-                    />
+          <View >
+          <Formik
+            initialValues={{
+              images: [],
+              title: '',
+              price: '',
+              category: '',
+              description: '',
+            }}
+            onSubmit={data => {
+              console.log('Submitting: ', data);
+            }}
+            validationSchema={VALIDATION_SCHEMA}>
+            {({
+              handleSubmit,
+              handleChange,
+              handleBlur,
+              setFieldValue,
+              errors,
+              touched,
+              isValid,
+              isSubmitting,
+              dirty,
+              values,
+            }) => (
+              <>
+                <View style={{marginBottom: 10}}>
+                  <AppImagePicker
+                    onChangeText={images => setFieldValue('images', images)}
+                  />
+                  {errors.images && touched.images && (
+                    <ErrorText message={errors.images} />
+                  )}
+                </View>
+                <FlatList
+                  data={INPUT_FIELDS}
+                  keyExtractor={item => String(item.id)}
+                  renderItem={({item}) => (
+                    <>
+                      <AppTextInput
+                        placeholder={item.placeholder}
+                        keyboardType={item.keyboardType}
+                        maxLength={item.maxLength}
+                        multiline={item.multiline}
+                        value={values[item.name]}
+                        onBlur={handleBlur(item.name)}
+                        onChangeText={handleChange(item.name)}
+                      />
 
-                    {errors[item.name] && touched[item.name] && (
-                      <ErrorText message={errors[item.name]} />
-                    )}
-                  </>
-                )}
-                style={styles.inputList}
-                ItemSeparatorComponent={() => <View style={{marginTop: 10}} />}
-                scrollEnabled={false}
-              />
-              <TouchableOpacity
-                disabled={isSubmitting || !isValid || !dirty}
-                style={[
-                  styles.postBtn,
-                  (isSubmitting || !isValid || !dirty) &&
-                    styles.postBtnDisabled,
-                ]}
-                onPress={handleSubmit}>
-                <Text style={styles.postText}>Post</Text>
-              </TouchableOpacity>
-            </>
-          )}
-        </Formik>
+                      {errors[item.name] && touched[item.name] && (
+                        <ErrorText message={errors[item.name]} />
+                      )}
+                    </>
+                  )}
+                  style={styles.inputList}
+                  ItemSeparatorComponent={() => <View style={{marginTop: 10}} />}
+                  scrollEnabled={false}
+                  ListFooterComponent={ () => (
+                    <TouchableOpacity
+                      disabled={isSubmitting || !isValid || !dirty}
+                      style={[
+                        styles.postBtn,
+                        (isSubmitting || !isValid || !dirty) &&
+                          styles.postBtnDisabled,
+                      ]}
+                      onPress={handleSubmit}
+                    >
+                      <Text style={styles.postText}>Post</Text>
+                    </TouchableOpacity>  
+                  )}
+                />
+              </>
+            )}
+          </Formik>
+        </View>
       </ScrollView>
     </Screen>
   );
@@ -127,7 +127,7 @@ const CreateListing = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 10
   },
   postBtn: {
     width: '100%',
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4B8F8C',
     padding: 15,
     borderRadius: 10,
-    marginTop: 20,
+    marginTop: 25,
     alignSelf: 'center',
   },
   postText: {

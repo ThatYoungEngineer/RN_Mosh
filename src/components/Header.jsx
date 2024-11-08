@@ -5,9 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 export default function Header({title, icon}) {
   return (
     <View
-      style={{
-        backgroundColor: 'transparent',
-      }}>
+>
       <View
         style={{
           alignSelf: 'flex-start',

@@ -5,7 +5,8 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  Button
 } from 'react-native';
 
 import Screen from '../components/Screen';
@@ -36,19 +37,22 @@ const AccountScreen = () => {
 
   return (
     <Screen>
-      {/* <StatusBar backgroundColor="#6a51ae" barStyle="dark-content" translucent={false} /> */}
-      <Header title="Account" icon="account" />
-      <View style={styles.itemsContainer}>
-            <Image source={userImage} style={styles.userImg} />
-            <View style={styles.textContainer}>
-              <Text style={styles.userName}>John Doe</Text>
-              <Text style={styles.userEmail}>johndoe@gmail.com</Text>
-            </View>
-          </View>
           <FlatList
             style={{marginTop: 15}}
             data={menu}
             keyExtractor={item => String(item.id)}
+            ListHeaderComponent={ () => (
+            <>
+              <Header title="Account" icon="account" />
+              <View style={styles.itemsContainerHeader}>
+                <Image source={userImage} style={styles.userImg} />
+                <View style={styles.textContainer}>
+                  <Text style={styles.userName}>John Doe</Text>
+                  <Text style={styles.userEmail}>johndoe@gmail.com</Text>
+                </View>
+              </View>
+            </>
+            )}
             renderItem={({item}) => (
               <TouchableOpacity
                 style={styles.menuItem}
@@ -67,21 +71,26 @@ const AccountScreen = () => {
               </View>
               </TouchableOpacity>
             )}
+            ListFooterComponent={ () => (
+              <TouchableOpacity style={styles.logoutBtn}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={[styles.logo, {backgroundColor: '#d8cd2a'}]}>
+                  <Entypo
+                    name="log-out"
+                    size={20}
+                    color="white"
+                    style={{height: 20, width: 20}}
+                  />
+                </View>
+                <Text style={{fontWeight: 500}}>Sign Out</Text>
+              </View>
+            </TouchableOpacity>
+            )}
             ItemSeparatorComponent={ItemsSeparator}
           />
-      <TouchableOpacity style={styles.logoutBtn}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={[styles.logo, {backgroundColor: '#d8cd2a'}]}>
-            <Entypo
-              name="log-out"
-              size={20}
-              color="white"
-              style={{height: 20, width: 20}}
-            />
-          </View>
-          <Text style={{fontWeight: 500}}>Sign Out</Text>
-        </View>
-      </TouchableOpacity>
+
+          <Button title="Login" onPress={() => navigation.navigate("Register")} />
+
     </Screen>
   );
 };
@@ -99,9 +108,16 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
   },
-  itemsContainer: {
+  itemsContainerHeader: {
     paddingVertical: 5,
     paddingHorizontal: 10,
+    marginBottom: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  itemsContainer: {
+    padding: 10,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
@@ -128,7 +144,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logoutBtn: {
-    marginTop: 15,
+    marginTop: 10, 
     backgroundColor: 'white',
     flexDirection: 'row',
     padding: 10,

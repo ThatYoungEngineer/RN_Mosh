@@ -8,6 +8,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#f4f8f8',
     justifyContent: 'flex-start',
+    marginBottom: 60,
+    flex: 1
   },
 });
 
