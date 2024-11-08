@@ -9,7 +9,7 @@ import {
 import Screen from '../components/Screen';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 
-const Listings = () => {
+const Listings = ({route}) => {
   const LISTINGS = [
     {
       id: 1,
@@ -49,7 +49,7 @@ const Listings = () => {
           alignItems: 'center',
           justifyContent: 'flex-start',
         }}>
-        <Text style={styles.headerText}>Products</Text>
+        <Text style={styles.headerText}>Products {route?.params?.id}</Text>
         <Icon name="boxes-packing" size={35} color="#6a6a6a" />
       </View>
     </View>

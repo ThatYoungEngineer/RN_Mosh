@@ -52,7 +52,7 @@ const AccountScreen = () => {
             renderItem={({item}) => (
               <TouchableOpacity
                 style={styles.menuItem}
-                onPress={() => navigation.navigate(item.title)}
+                onPress={() => navigation.navigate(item.title, {id: 2})}
               >
               <View style={styles.itemsContainer}>
                 <View style={[styles.logo, {backgroundColor: item.logoBg}]}>
