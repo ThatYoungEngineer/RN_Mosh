@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import {
   View,
   FlatList,
@@ -11,28 +12,30 @@ import {
 import Screen from '../components/Screen';
 import Header from '../components/Header';
 import ItemsSeparator from '../components/ItemsSeparator';
-import userImage from '../assets/user.jpg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
 
 const AccountScreen = () => {
  const navigation = useNavigation()
+ const [user, setUser] = useState(null)
 
   const menu = [
-    {
-      id: 1,
-      title: 'Listings',
-      logo: 'format-list-bulleted',
-      logoBg: '#ff4135',
-    },
-    {
-      id: 2,
-      title: 'Messages',
-      logo: 'message',
-      logoBg: '#44bd5a',
-    },
+    {id: 1, title: 'Listings', logo: 'format-list-bulleted', logoBg: '#ff4135'},
+    {id: 2, title: 'Messages', logo: 'message', logoBg: '#44bd5a'}
   ];
+
+  const fetchUser = async () => {
+    const user = await fetch("http://192.168.5.103:3000/user")
+    const data = await user.json()
+    setUser(data)
+  }
+
+  useEffect(() => {
+    fetchUser();
+  }, [])
+
+  console.log("user: ", user)
 
   return (
     <Screen>
@@ -43,10 +46,10 @@ const AccountScreen = () => {
             <>
               <Header title="Account" icon="account" />
               <View style={styles.itemsContainerHeader}>
-                <Image source={userImage} style={styles.userImg} />
+                <Image source={{uri: user?.image}} style={styles.userImg} />
                 <View style={styles.textContainer}>
-                  <Text style={styles.userName}>John Doe</Text>
-                  <Text style={styles.userEmail}>johndoe@gmail.com</Text>
+                  <Text style={styles.userName}>{user?.name}</Text>
+                  <Text style={styles.userEmail}>{user?.email}</Text>
                 </View>
               </View>
             </>
