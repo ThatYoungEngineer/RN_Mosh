@@ -13,6 +13,7 @@ import Listing from './Listing';
 import Messages from './Messages';
 import CreateListing from './CreateListing';
 import ModalScreen from './ModalScreen';
+import ListingDetails from './ListingDetails';
 
 export {
     Home,
@@ -20,5 +21,6 @@ export {
     Listing,
     Messages,
     CreateListing,
-    ModalScreen
+    ModalScreen,
+    ListingDetails
 }

@@ -6,9 +6,11 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  ActivityIndicator
 } from 'react-native';
 import Screen from '../components/Screen';
 import Header from '../components/Header';
+import SystemNavigationBar from 'react-native-system-navigation-bar';
 
 const Listings = () => {
 
@@ -22,6 +24,7 @@ const Listings = () => {
 
   useEffect(() => {
     fetchListing()
+		SystemNavigationBar.setNavigationColor('white');
   }, []);
 
   return (

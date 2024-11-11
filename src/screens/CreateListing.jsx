@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Screen from '../components/Screen';
 import Header from '../components/Header';
@@ -18,6 +18,7 @@ import ErrorText from '../components/ErrorText';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import AppPicker from '../components/AppPicker';
+import SystemNavigationBar from 'react-native-system-navigation-bar';
 
 const VALIDATION_SCHEMA = yup.object().shape({
   images: yup
@@ -50,6 +51,10 @@ const CreateListing = () => {
     {label: "Clothing", value: 2, icon: 'tshirt-v',  bgColor: 'yellow'},
     {label: "Cameras", value: 3, icon: 'camera',  bgColor: 'pink'}
   ]
+
+  useEffect(() => {
+		SystemNavigationBar.setNavigationColor('white');
+  }, [])
 
   return (
     <Screen>
