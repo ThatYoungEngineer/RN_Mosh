@@ -17,6 +17,7 @@ import ErrorText from '../components/ErrorText';
 
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import AppPicker from '../components/AppPicker';
 
 const VALIDATION_SCHEMA = yup.object().shape({
   images: yup
@@ -28,7 +29,10 @@ const VALIDATION_SCHEMA = yup.object().shape({
     .number()
     .typeError('Should be a number!')
     .required('Price is required'),
-  category: yup.string().required('Category is required'),
+  category: yup
+    .string().required('Category is required')
+    .nullable(false)
+    .notOneOf([null, undefined], 'Category cannot be null or undefined'),
   description: yup.string().required('Description is required'),
 });
 
@@ -40,6 +44,13 @@ const CreateListing = () => {
     {id: 3, name: 'category', placeholder: 'Category'},
     {id: 4, name: 'description', placeholder: 'Description', multiline: true},
   ];
+
+  const CATEGORIES = [
+    {label: "Furniture", value: 1, icon: 'table-furniture', bgColor: 'green'},
+    {label: "Clothing", value: 2, icon: 'tshirt-v',  bgColor: 'yellow'},
+    {label: "Cameras", value: 3, icon: 'camera',  bgColor: 'pink'}
+  ]
+
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.container}>
@@ -83,19 +94,31 @@ const CreateListing = () => {
                   keyExtractor={item => String(item.id)}
                   renderItem={({item}) => (
                     <>
-                      <AppTextInput
-                        placeholder={item.placeholder}
-                        keyboardType={item.keyboardType}
-                        maxLength={item.maxLength}
-                        multiline={item.multiline}
-                        value={values[item.name]}
-                        onBlur={handleBlur(item.name)}
-                        onChangeText={handleChange(item.name)}
-                      />
-
-                      {errors[item.name] && touched[item.name] && (
-                        <ErrorText message={errors[item.name]} />
-                      )}
+                      {item.name === 'category' ?
+                        <>
+                          <AppPicker placeholder="Category" items={CATEGORIES}
+                            onChangeText={category => setFieldValue('category', category)}
+                          />
+                          {errors[item.name] && touched[item.name] && (
+                            <ErrorText message={errors[item.name]} />
+                          )}
+                        </>
+                      :
+                        <>
+                          <AppTextInput
+                            placeholder={item.placeholder}
+                            keyboardType={item.keyboardType}
+                            maxLength={item.maxLength}
+                            multiline={item.multiline}
+                            value={values[item.name]}
+                            onBlur={handleBlur(item.name)}
+                            onChangeText={handleChange(item.name)}
+                          />
+                          {errors[item.name] && touched[item.name] && (
+                            <ErrorText message={errors[item.name]} />
+                          )}
+                        </>
+                      }
                     </>
                   )}
                   style={styles.inputList}
@@ -103,12 +126,7 @@ const CreateListing = () => {
                   scrollEnabled={false}
                   ListFooterComponent={ () => (
                     <TouchableOpacity
-                      disabled={isSubmitting || !isValid || !dirty}
-                      style={[
-                        styles.postBtn,
-                        (isSubmitting || !isValid || !dirty) &&
-                          styles.postBtnDisabled,
-                      ]}
+                      style={styles.postBtn}
                       onPress={handleSubmit}
                     >
                       <Text style={styles.postText}>Post</Text>
@@ -119,7 +137,7 @@ const CreateListing = () => {
             )}
           </Formik>
         </View>
-      </ScrollView>
+        </ScrollView>
     </Screen>
   );
 }

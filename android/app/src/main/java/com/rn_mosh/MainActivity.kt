@@ -5,6 +5,8 @@ import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
 import android.os.Bundle;
+import android.view.View
+import android.graphics.Color
 
 class MainActivity : ReactActivity() {
 
@@ -15,6 +17,7 @@ class MainActivity : ReactActivity() {
   override fun getMainComponentName(): String = "RN_Mosh"
    override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(null)
+
   }
 
   /**

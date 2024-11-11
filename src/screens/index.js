@@ -7,14 +7,18 @@
 // export const CreateListing = lazy(() => import('./CreateListing'));
 
 
+import Home from './Home';
 import AccountScreen from './AccountScreen';
-import Listings from './Listings';
+import Listing from './Listing';
 import Messages from './Messages';
 import CreateListing from './CreateListing';
+import ModalScreen from './ModalScreen';
 
 export {
+    Home,
     AccountScreen,
-    Listings,
+    Listing,
     Messages,
     CreateListing,
+    ModalScreen
 }

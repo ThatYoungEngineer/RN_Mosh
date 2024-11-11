@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -6,91 +6,38 @@ import {
   FlatList,
   Image,
   TouchableNativeFeedback,
-  TouchableWithoutFeedback,
+  TouchableWithoutFeedback
 } from 'react-native';
+
+import Header from '../components/Header';
 import Screen from '../components/Screen';
+
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Icon from 'react-native-vector-icons/EvilIcons';
-import Header from '../components/Header';
 
 const Messages = () => {
-  const MESSAGES = [
-    {
-      id: 1,
-      title: 'HazenLogix',
-      message: 'Missed Attendance Notification.',
-      userImage:
-        'https://www.profilebakery.com/wp-content/uploads/2023/04/PROFILE-PICTURE-FOR-FACEBOOK.jpg',
-    },
-    {
-      id: 2,
-      title: 'Jazz 4G',
-      message: 'Subscribe to Daily Offer now!',
-      userImage:
-        'https://www.profilebakery.com/wp-content/uploads/2023/04/women-AI-Profile-Picture.jpg',
-    },
-    {
-      id: 3,
-      title: 'Khizer Awais',
-      message: 'Hello, how are you? Please share your task progress.',
-      userImage:
-        'https://www.profilebakery.com/wp-content/uploads/2023/04/LINKEDIN-Profile-Picture-AI.jpg',
-    },
-    {
-      id: 4,
-      title: 'Khizer Awais',
-      message: 'Hello, how are you? Please share your task progress.',
-      userImage:
-        'https://www.profilebakery.com/wp-content/uploads/2023/04/LINKEDIN-Profile-Picture-AI.jpg',
-    },
-    {
-      id: 5,
-      title: 'Khizer Awais',
-      message: 'Hello, how are you? Please share your task progress.',
-      userImage:
-        'https://www.profilebakery.com/wp-content/uploads/2023/04/LINKEDIN-Profile-Picture-AI.jpg',
-    },
-    {
-      id: 6,
-      title: 'Khizer Awais',
-      message: 'Hello, how are you? Please share your task progress.',
-      userImage:
-        'https://www.profilebakery.com/wp-content/uploads/2023/04/LINKEDIN-Profile-Picture-AI.jpg',
-    },
-    {
-      id: 7,
-      title: 'Khizer Awais',
-      message: 'Hello, how are you? Please share your task progress.',
-      userImage:
-        'https://www.profilebakery.com/wp-content/uploads/2023/04/LINKEDIN-Profile-Picture-AI.jpg',
-    },
-    {
-      id: 8,
-      title: 'Khizer Awais',
-      message: 'Hello, how are you? Please share your task progress.',
-      userImage:
-        'https://www.profilebakery.com/wp-content/uploads/2023/04/LINKEDIN-Profile-Picture-AI.jpg',
-    },
-    {
-      id: 9,
-      title: 'Khizer Awais',
-      message: 'Hello, how are you? Please share your task progress.',
-      userImage:
-        'https://www.profilebakery.com/wp-content/uploads/2023/04/LINKEDIN-Profile-Picture-AI.jpg',
-    }
-  ];
 
-  const [messages, setMessages] = useState(MESSAGES);
+  const [messages, setMessages] = useState(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleDeleteMessage = item => {
     setMessages(prevMessages => prevMessages.filter(msg => msg.id !== item.id));
   };
 
+  const fetchMessages = async () => {
+    const res = await fetch("http://192.168.10.221:3000/messages")
+    const data = await res.json()
+    setMessages(data)
+  }
+
+  useEffect(() => {
+    fetchMessages()
+  }, [])
+
   return (
     <Screen>
-      {messages.length > 0 ? (
+      {messages?.length > 0 ? (
         <FlatList
           data={messages}
           keyExtractor={item => String(item.id)}

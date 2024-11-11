@@ -1,7 +1,6 @@
-import { Suspense } from "react"
-import { StatusBar, Text } from "react-native"
+import { useState, useEffect } from "react"
 
-import {AccountScreen, Listings, Messages, CreateListing} from './screens'
+import {AccountScreen, Listing, Messages, CreateListing, Home} from './screens'
 import Register from './screens/auth/Register'
 import Login from './screens/auth/Login'
 
@@ -10,10 +9,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMI from 'react-native-vector-icons/MaterialIcons';
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 const App = () => {
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
+  const insets = useSafeAreaInsets();
 
   function AuthStack() {
 	return (
@@ -24,20 +25,22 @@ const App = () => {
 		},
 		headerTitle: ''
 		}}
+		initialRouteName="Home"
 	   >
+		<Stack.Screen name="Home" component={Home} />
 		<Stack.Screen name="Register" component={Register} />
 		<Stack.Screen name="Login" component={Login} />
 	  </Stack.Navigator>
 	);
   }
 
-	function MainTabNavigator() {
+	const MainTabNavigator = () => {
 		return (
 			<Tab.Navigator
 				initialRouteName="Messages"
 				screenOptions={{	
 				headerShown: false,
-					tabBarStyle: { position: 'absolute', height: 60, width: '100%'},
+					tabBarStyle: {position: 'absolute', width: '100%', backgroundColor: 'white', height: 50 + insets.bottom },
 					tabBarActiveTintColor: 'tomato',
 					tabBarInactiveTintColor: '#eee',
 				}}
@@ -49,7 +52,7 @@ const App = () => {
 						)
 					}}
 				/>
-				<Tab.Screen name="Listings" component={Listings}
+				<Tab.Screen name="Listing" component={Listing}
 					options={{
 						tabBarIcon: ({ size, color}) => (
 							<Icon name="store" size={size} color={color} />
@@ -74,40 +77,15 @@ const App = () => {
 		)
 	}
 
-  return (
-	<>
-	      {/* <StatusBar hidden /> */}
-		<Suspense fallback={<Text>Loading..</Text>}>
-		
-			{/* <AccountScreen /> */}
-			{/* <Listings /> */}
-			{/* <Login /> */}
-			{/* <Messages /> */}
-			{/* <CreateListing /> */}
+	const [isAuthenticated, setIsAuthenticated] = useState(true)
 
-			{/* <Stack.Navigator initialRouteName="Account Screen">
-			<Stack.Screen name="Account Screen" component={AccountScreen} />
-			<Stack.Screen name="Create Listing" component={CreateListing} />
-			<Stack.Screen name="Messages" component={Messages} />
-			<Stack.Screen name="Listings" component={Listings}
-				options={{
-					headerStyle: { backgroundColor: 'tomato'},
-					headerShown: true,
-					headerTintColor: '#fff'
-				}}
-				/>
-			</Stack.Navigator> */}
-
+	return isAuthenticated ?
 			<Stack.Navigator screenOptions={{ headerShown: false }}>
 				<Stack.Screen name="Main" component={MainTabNavigator} />
-				<Stack.Screen name="Auth" component={AuthStack} 
-				
-				/> 
 			</Stack.Navigator>
-			
-		</Suspense>
-	</>
-  )
+	:	<Stack.Navigator >
+			<Stack.Screen name="Auth" component={AuthStack} options={{headerShown: false}} /> 
+		</Stack.Navigator>  
 }
 
 export default App

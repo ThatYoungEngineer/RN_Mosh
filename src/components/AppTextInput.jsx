@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     fontSize: 17,
     color: '#000',
+    fontWeight: '600',
     fontWeight: 'semibold',
   },
 });

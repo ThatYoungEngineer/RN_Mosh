@@ -7,8 +7,6 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 import Header from '../../components/Header';
 
-import bgImage from '../../assets/bg-bm.jpg'
-
 const VALIDATION_SCHEMA = yup.object().shape({
   email: yup
     .string()
@@ -23,7 +21,6 @@ const VALIDATION_SCHEMA = yup.object().shape({
 
 const Login = () => {
   return (
-    <ImageBackground source={bgImage} style={{flex: 1}}>
       <Screen marginBottom={0} >
         <View style={{marginTop: 40, alignItems: 'center'}}>
           <Header title="Login" icon="login" />
@@ -117,7 +114,6 @@ const Login = () => {
             )}
           </Formik>
       </Screen>
-    </ImageBackground>
   );
 };
 

@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, TouchableOpacity, Switch, ImageBackground, TextInput, TouchableWithoutFeedback} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Switch, ImageBackground, TextInput, TouchableWithoutFeedback, StatusBar} from 'react-native';
 import Screen from '../../components/Screen';
 import Header from '../../components/Header';
 import AppTextInput from '../../components/AppTextInput';
@@ -7,8 +7,7 @@ import ErrorText from '../../components/ErrorText';
 import {useNavigation} from '@react-navigation/native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-
-import bgImage from '../../assets/bg-bm.jpg'
+import { useEffect } from 'react';
 
 const VALIDATION_SCHEMA = yup.object().shape({
   name: yup.string().trim().required('Name is required'),
@@ -31,10 +30,13 @@ const VALIDATION_SCHEMA = yup.object().shape({
 const Register = () => {
   const navigation = useNavigation()
 
+  useEffect(() => {
+    StatusBar.setBarStyle('dark-content');
+  })
+
   return (
-    <ImageBackground source={bgImage} style={{flex: 1}}>
       <Screen marginBottom={0} >
-        <View style={{marginTop: 40, alignItems: 'center'}}>
+        <View style={{marginTop: StatusBar.currentHeight + 20, alignItems: 'center'}}>
           <Header title="Register" icon="login" />
         </View>
           <Formik
@@ -153,7 +155,6 @@ const Register = () => {
             )}
           </Formik>
       </Screen>
-    </ImageBackground>
   );
 };
 
