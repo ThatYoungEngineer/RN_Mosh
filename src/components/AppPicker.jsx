@@ -9,7 +9,7 @@ const AppPicker = ({ icon, placeholder, items, onChangeText }) => {
   const insets = useSafeAreaInsets();
 
   useEffect(() => {
-    onChangeText(selected?.label)
+    selected && onChangeText(selected?.label)
   }, [selected])
 
   return (
