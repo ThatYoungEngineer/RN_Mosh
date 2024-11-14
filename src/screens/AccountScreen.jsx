@@ -6,7 +6,8 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  Alert
 } from 'react-native';
 
 import Screen from '../components/Screen';
@@ -21,7 +22,7 @@ import { useAuth } from '../context/auth';
 
 const AccountScreen = () => {
  const navigation = useNavigation()
- const { user } = useAuth()
+ const { user, updateUser } = useAuth()
 
   const menu = [
     {id: 1, title: 'Listing', logo: 'format-list-bulleted', logoBg: '#ff4135'},
@@ -31,6 +32,11 @@ const AccountScreen = () => {
   useEffect(() => {
 		SystemNavigationBar.setNavigationColor('white')
   }, [])
+
+  const handleSignOut = () => {
+    Alert.alert("Signed out successfully")
+    updateUser(null)
+  }
 
   return (
     <Screen>
@@ -72,19 +78,19 @@ const AccountScreen = () => {
             </TouchableOpacity>
           )}
           ListFooterComponent={ () => (
-            <TouchableOpacity style={styles.logoutBtn}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View style={[styles.logo, {backgroundColor: '#d8cd2a'}]}>
-                <Entypo
-                  name="log-out"
-                  size={20}
-                  color="white"
-                  style={{height: 20, width: 20}}
-                />
+            <TouchableOpacity style={styles.logoutBtn} onPress={handleSignOut} >
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={[styles.logo, {backgroundColor: '#d8cd2a'}]}>
+                  <Entypo
+                    name="log-out"
+                    size={20}
+                    color="white"
+                    style={{height: 20, width: 20}}
+                  />
+                </View>
+                <Text style={{fontWeight: 500}}>Sign Out</Text>
               </View>
-              <Text style={{fontWeight: 500}}>Sign Out</Text>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
           )}
           ItemSeparatorComponent={ItemsSeparator}
         />
