@@ -1,11 +1,17 @@
-import {View, Text, StyleSheet, TouchableOpacity, Switch, ImageBackground} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Switch, ImageBackground, Alert} from 'react-native';
+import { useContext } from 'react';
+
+import Header from '../../components/Header';
 import Screen from '../../components/Screen';
 import AppTextInput from '../../components/AppTextInput';
 import ErrorText from '../../components/ErrorText';
 
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import Header from '../../components/Header';
+import { jwtDecode } from "jwt-decode";
+
+import loginApi from '../../api/auth'
+import { useAuth } from '../../context/auth';
 
 const VALIDATION_SCHEMA = yup.object().shape({
   email: yup
@@ -19,7 +25,23 @@ const VALIDATION_SCHEMA = yup.object().shape({
   password: yup.string().trim().required('Password is required'),
 });
 
+
 const Login = () => {
+  const { updateUser } = useAuth()
+
+  const HANDLE_LOGIN_SUBMIT = async (values) => {
+    const result = await loginApi.login(values.email, values.password)
+    if (result.ok) {
+      console.log(result.data)
+      const userData = jwtDecode(result.data);
+      Alert.alert("Welcome", userData.name)
+      updateUser(userData)
+    } else {
+      Alert.alert("Error", result.data.error)
+      throw new Error(result.data.error)
+    }
+  }
+
   return (
       <Screen marginBottom={0} >
         <View style={{marginTop: 40, alignItems: 'center'}}>
@@ -27,10 +49,15 @@ const Login = () => {
         </View>
           <Formik
             initialValues={{email: '', password: '', rememberMe: false}}
-            onSubmit={(values, {setSubmitting, resetForm}) => {
-              console.log('Submitting: ', values);
-              setSubmitting(false);
-              resetForm();
+
+            onSubmit={ async (values, {setSubmitting, resetForm}) => {
+              try{
+                const data = await HANDLE_LOGIN_SUBMIT(values)
+                setSubmitting(false)
+              } catch(e){
+                console.log(e)
+                setSubmitting(false)
+              }
             }}
             validationSchema={VALIDATION_SCHEMA}>
             {({
@@ -91,7 +118,7 @@ const Login = () => {
                   </View>
                   <TouchableOpacity
                     disabled={
-                      isSubmitting == true || isValid == false || dirty == false
+                      isSubmitting == true || !isValid || !dirty
                     }
                     style={[
                       styles.loginBtn,

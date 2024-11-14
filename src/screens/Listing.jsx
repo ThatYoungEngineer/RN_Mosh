@@ -4,23 +4,24 @@ import {
   FlatList,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
-  ActivityIndicator
 } from 'react-native';
+
+
+
 import Screen from '../components/Screen';
 import Header from '../components/Header';
+
 import SystemNavigationBar from 'react-native-system-navigation-bar';
+import { useNavigation } from '@react-navigation/native';
+import FastImage from 'react-native-fast-image'
+
+import useApi from '../api/useApi';
+import listingApi from '../api/listing'; 
 
 const Listings = () => {
-
-  const [listing, setListing] = useState(null)
-
-  const fetchListing = async () => {
-    const res = await fetch("http://192.168.10.221:3000/listing")
-    const data = await res.json() 
-    setListing(data)
-  }
+  const navigation = useNavigation();
+  const {data: listing, loading, error, request:fetchListing}= useApi(listingApi.getListing)
 
   useEffect(() => {
     fetchListing()
@@ -34,20 +35,22 @@ const Listings = () => {
         keyExtractor={item => String(item.id)}
         ListHeaderComponent={<Header title="Products" icon="store" />}
         renderItem={({item}) => (
-          <TouchableOpacity style={{padding: 15}}>
+          <TouchableOpacity style={{padding: 15}} onPress={()=>navigation.navigate("ListingDetails", {item})}>
             <View style={styles.listingsContainer}>
-              <Image style={styles.image} source={{uri: item.img}} />
+              <FastImage style={styles.image} source={{uri: item.images[0].url}}  />
               <View style={styles.textContainer}>
-                <Text style={{fontWeight: 500, color: '#000'}}>
+                <Text style={{ fontSize: 18, fontWeight: 500, color: '#000'}}>
                   {item.title}
                 </Text>
-                <Text style={{fontWeight: 400, color: '#0fb728'}}>
-                  {item.price}
+                <Text style={{fontSize: 16, fontWeight: 400, color: '#0fb728', marginTop: 5}}>
+                  ${item.price}
                 </Text>
               </View>
             </View>
           </TouchableOpacity>
         )}
+        refreshing={loading}
+        onRefresh={fetchListing}
         ItemSeparatorComponent={() => <View style={{marginTop: 0}} />}
       />
     </Screen>

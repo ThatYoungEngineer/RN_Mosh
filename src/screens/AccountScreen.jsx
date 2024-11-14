@@ -17,28 +17,19 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 import { useNavigation } from '@react-navigation/native'
 import SystemNavigationBar from 'react-native-system-navigation-bar';
+import { useAuth } from '../context/auth';
 
 const AccountScreen = () => {
- const [user, setUser] = useState(null)
- const [loading, setLoading] = useState(false)
  const navigation = useNavigation()
+ const { user } = useAuth()
 
   const menu = [
     {id: 1, title: 'Listing', logo: 'format-list-bulleted', logoBg: '#ff4135'},
     {id: 2, title: 'Messages', logo: 'message', logoBg: '#44bd5a'}
   ];
 
-  const fetchUser = async () => {
-    setLoading(true)
-    const user = await fetch("http://192.168.5.103:3000/user")
-    const data = await user.json()
-    setUser(data)
-    setLoading(false)
-  }
-
   useEffect(() => {
-    fetchUser();
-		SystemNavigationBar.setNavigationColor('white');
+		SystemNavigationBar.setNavigationColor('white')
   }, [])
 
   return (
@@ -50,25 +41,22 @@ const AccountScreen = () => {
           ListHeaderComponent={ () => (
           <>
             <Header title="Account" icon="account" />
-              {loading ? 
-                <View style={{width: '100%', height: 60, alignItems: 'center', justifyContent: 'center'}}>
-                  <ActivityIndicator />
-                </View>
-              :
-                <View style={styles.itemsContainerHeader}>
-                  <Image source={{uri: user?.image}} style={styles.userImg} />
-                  <View style={styles.textContainer}>
-                    <Text style={styles.userName}>{user?.name}</Text>
-                    <Text style={styles.userEmail}>{user?.email}</Text>
-                  </View>
-                </View>
-              } 
+            <View style={styles.itemsContainerHeader}>
+              <Image 
+                source={{uri: user?.image || "https://img.freepik.com/premium-photo/happy-man-ai-generated-portrait-user-profile_1119669-1.jpg"}}
+                style={styles.userImg} 
+              />
+              <View style={styles.textContainer}>
+                <Text style={styles.userName}>{user?.name}</Text>
+                <Text style={styles.userEmail}>{user?.email}</Text>
+              </View>
+            </View>
           </>
           )}
           renderItem={({item}) => (
             <TouchableOpacity
               style={styles.menuItem}
-              onPress={() => navigation.navigate(item.title)}
+              onPress={() => navigation.navigate(item.title == "Listing" ? 'Feed' : item.title)}
             >
             <View style={styles.itemsContainer}>
               <View style={[styles.logo, {backgroundColor: item.logoBg}]}>
@@ -125,7 +113,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
-    height: 60,
+    height: 70,
   },
   itemsContainer: {
     padding: 10,

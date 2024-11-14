@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    width: '98%',
+    width: '90%',
     paddingVertical: 20,
     paddingHorizontal: 10,
     fontSize: 17,

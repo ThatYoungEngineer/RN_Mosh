@@ -1,11 +1,10 @@
-import {View, Text} from 'react-native';
+import {SafeAreaView, View, Text} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function Header({title, icon}) {
   return (
-    <View
->
+    <View>
       <View
         style={{
           alignSelf: 'flex-start',
@@ -17,7 +16,7 @@ export default function Header({title, icon}) {
           style={{
             fontSize: 32,
             paddingHorizontal: 10,
-            paddingVertical: 20,
+            paddingVertical: 15,
             fontWeight: 'bold',
             textAlign: 'left',
             alignSelf: 'flex-start',

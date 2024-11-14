@@ -5,9 +5,10 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
+  Alert,
 } from 'react-native';
 
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import Screen from '../components/Screen';
 import Header from '../components/Header';
@@ -20,6 +21,8 @@ import * as yup from 'yup';
 import AppPicker from '../components/AppPicker';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
 
+import listingApi from '../api/listing';
+
 const VALIDATION_SCHEMA = yup.object().shape({
   images: yup
     .array()
@@ -28,16 +31,17 @@ const VALIDATION_SCHEMA = yup.object().shape({
   title: yup.string().required('Title is required'),
   price: yup
     .number()
-    .typeError('Should be a number!')
+    .typeError('Must be a number!')
     .required('Price is required'),
   category: yup
     .string().required('Category is required')
     .nullable(false)
     .notOneOf([null, undefined], 'Category cannot be null or undefined'),
-  description: yup.string().required('Description is required'),
+  description: yup.string()
 });
 
 const CreateListing = () => {
+  const [loading, setLoading] = useState(false)
 
   const INPUT_FIELDS = [
     {id: 1, name: 'title', placeholder: 'Title'},
@@ -53,14 +57,21 @@ const CreateListing = () => {
   ]
 
   useEffect(() => {
-		SystemNavigationBar.setNavigationColor('white');
+		SystemNavigationBar.setNavigationColor('white')
   }, [])
+
+  const handleFormSubmit = async (listing) => {
+    const result = await listingApi.postListing(listing)
+    console.log("RESULT: ", result)
+
+    if(!result.ok) return Alert.alert("Could not create listing!")
+    else Alert.alert("Success!")
+  }
 
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.container}>
         <Header title="Create Listing" icon="view-list" />
-          <View >
           <Formik
             initialValues={{
               images: [],
@@ -70,7 +81,7 @@ const CreateListing = () => {
               description: '',
             }}
             onSubmit={data => {
-              console.log('Submitting: ', data);
+              handleFormSubmit(data)
             }}
             validationSchema={VALIDATION_SCHEMA}>
             {({
@@ -134,14 +145,13 @@ const CreateListing = () => {
                       style={styles.postBtn}
                       onPress={handleSubmit}
                     >
-                      <Text style={styles.postText}>Post</Text>
+                      <Text style={styles.postText}> {loading ? "loading.." : "Post" } </Text>
                     </TouchableOpacity>  
                   )}
                 />
               </>
             )}
           </Formik>
-        </View>
         </ScrollView>
     </Screen>
   );
@@ -158,7 +168,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4B8F8C',
     padding: 15,
     borderRadius: 10,
-    marginTop: 25,
+    marginVertical: 25,
     alignSelf: 'center',
   },
   postText: {

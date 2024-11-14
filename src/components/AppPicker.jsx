@@ -50,31 +50,20 @@ const AppPicker = ({ icon, placeholder, items, onChangeText }) => {
       </Modal>
 
       {icon && <Icon name={'camera'} size={20} /> }
-      {selected ?
-        <Pressable style={styles.input} onPress={() => setModalVisible(true)}>
-            <Text style={{ fontSize: 17, color: '#000' }} >
-                {selected?.label}
-            </Text>
-            <Icon name="chevron-down" size={20} color={"#0000005f"} 
-                style={{
-                    marginRight: icon ? 10 : 0,
-                    transform: [{ rotate: !modalVisible ? '0deg' : '180deg' }]
-                }}
-            />
-        </Pressable>
-        :
-        <Pressable style={styles.input} onPress={() => setModalVisible(true)}>
-            <Text style={{ fontSize: 17, color: '#0000005f' }} >
-                {placeholder}
-            </Text>
-            <Icon name="chevron-down" size={20} color={"#0000005f"} 
-                style={{
-                    marginRight: icon ? 10 : 0,
-                    transform: [{ rotate: !modalVisible ? '0deg' : '180deg' }]
-                }}
-            />
-        </Pressable>
-        }
+      <Pressable style={styles.input} onPress={() => setModalVisible(true)}>
+        <Text style={{ fontSize: 17, color: selected ? '#000' : '#0000005f' }}>
+            {selected ? selected.label : placeholder}
+        </Text>
+        <Icon
+            name="chevron-down"
+            size={20}
+            color="#0000005f"
+            style={{
+                marginRight: icon ? 10 : 0,
+                transform: [{ rotate: modalVisible ? '180deg' : '0deg' }],
+            }}
+        />
+    </Pressable>
     </View>
   );
 };
@@ -100,7 +89,7 @@ const styles = StyleSheet.create({
     modalBody:{
         flex: 1,
         padding: 20,
-        backgroundColor: '#eee',
+        backgroundColor: '#f8f8f8',
     },
     iconContainer: {
         padding: 10,

@@ -6,7 +6,8 @@ import {
   FlatList,
   Image,
   TouchableNativeFeedback,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Platform
 } from 'react-native';
 
 import Header from '../components/Header';
@@ -15,11 +16,14 @@ import Screen from '../components/Screen';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Icon from 'react-native-vector-icons/EvilIcons';
+import { useHeaderHeight } from '@react-navigation/elements';
+import SystemNavigationBar from 'react-native-system-navigation-bar';
+
 
 const Messages = () => {
-
   const [messages, setMessages] = useState(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const headerHeight = useHeaderHeight();
 
   const handleDeleteMessage = item => {
     setMessages(prevMessages => prevMessages.filter(msg => msg.id !== item.id));
@@ -33,6 +37,7 @@ const Messages = () => {
 
   useEffect(() => {
     fetchMessages()
+    SystemNavigationBar.setNavigationColor('white');
   }, [])
 
   return (
@@ -42,7 +47,9 @@ const Messages = () => {
           data={messages}
           keyExtractor={item => String(item.id)}
           ListHeaderComponent={
-            <Header title="Messages" icon="message-text" />
+            <View style={{paddingTop: Platform.OS === 'android' ? headerHeight : headerHeight/2 }}>
+              <Header title="Messages" icon="message-text" />
+            </View>
           }
           ListFooterComponent={
             <View style={{paddingBottom: 20}} />
