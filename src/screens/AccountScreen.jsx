@@ -20,6 +20,7 @@ import { useNavigation } from '@react-navigation/native'
 import SystemNavigationBar from 'react-native-system-navigation-bar';
 import { useAuth } from '../context/auth';
 
+
 const AccountScreen = () => {
  const navigation = useNavigation()
  const { user, updateUser } = useAuth()
@@ -34,10 +35,27 @@ const AccountScreen = () => {
   }, [])
 
   const handleSignOut = () => {
-    Alert.alert("Signed out successfully")
-    updateUser(null)
-  }
-
+    Alert.alert(
+        "Are you sure?",
+        "Do you really want to sign out?",
+        [
+          {
+            text: "Cancel",
+            style: "cancel"
+          },
+          {
+            text: "Sign Out",
+            style: "destructive",
+            onPress: () => {
+              updateUser(null);
+              Alert.alert("", "Signed out successfully!");
+            }
+          }
+        ],
+        { cancelable: true } // This allows tapping outside the alert to cancel it on Android
+    );
+  };
+  
   return (
     <Screen>
       <View style={{flex:1}}>

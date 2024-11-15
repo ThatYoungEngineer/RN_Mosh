@@ -1698,6 +1698,27 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNKeychain (9.2.1):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - RNPermissions (5.1.0):
     - DoubleConversion
     - glog
@@ -1867,6 +1888,7 @@ DEPENDENCIES:
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -2021,6 +2043,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fast-image"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNKeychain:
+    :path: "../node_modules/react-native-keychain"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNScreens:
@@ -2102,6 +2126,7 @@ SPEC CHECKSUMS:
   RNCPicker: b978067931744f5a7316b48b8dcf145d4d722672
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNGestureHandler: fc5ce5bf284640d3af6431c3a5c3bc121e98d045
+  RNKeychain: bdc29363a3252ca83577e0ef6d31ca3dd8f5ddaa
   RNPermissions: a368d8dd78528552cdc0986dff7625f2fcc223ab
   RNScreens: 2fe13c8d610ef2d9d5ace2e7d85b716ec0f5217c
   RNVectorIcons: 07792a9538e8577c1263fcad187712e90d65d8fb

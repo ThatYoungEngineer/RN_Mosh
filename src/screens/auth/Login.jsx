@@ -1,5 +1,4 @@
-import {View, Text, StyleSheet, TouchableOpacity, Switch, ImageBackground, Alert} from 'react-native';
-import { useContext } from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Switch, Alert} from 'react-native';
 
 import Header from '../../components/Header';
 import Screen from '../../components/Screen';
@@ -9,6 +8,7 @@ import ErrorText from '../../components/ErrorText';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import { jwtDecode } from "jwt-decode";
+import * as Keychain from 'react-native-keychain'
 
 import loginApi from '../../api/auth'
 import { useAuth } from '../../context/auth';
@@ -32,7 +32,7 @@ const Login = () => {
   const HANDLE_LOGIN_SUBMIT = async (values) => {
     const result = await loginApi.login(values.email, values.password)
     if (result.ok) {
-      console.log(result.data)
+        const key = await Keychain.setGenericPassword("token", result.data)
       const userData = jwtDecode(result.data);
       Alert.alert("Welcome", userData.name)
       updateUser(userData)
